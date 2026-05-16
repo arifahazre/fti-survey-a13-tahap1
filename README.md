@@ -1,57 +1,52 @@
-# FTI Survey — Modul A13 (Pengisian Survey)
+# FTI Survey A13 — Tahap 1
 
-Aplikasi web survey online untuk civitas akademika Fakultas Teknologi Informasi.
-
----
-
-## Anggota Kelompok
-
-| Nama | NIM | Tanggung Jawab |
-|------|-----|----------------|
-| Arifah Huwaina Azre | 2411521003 | Halaman pengguna, tampilan, validasi, export CSV |
-| Aqila Higenea Taufik | 2411522003 | Backend, database, halaman admin, export PDF |
+Aplikasi Survey Internal FTI Universitas Andalas  
+**Modul A13: Pengisian Survey**  
+**Tahap 1: Autentikasi & ACL**
 
 ---
 
-## Pembagian Tugas Tahap 1
+## Deskripsi
 
-| Nama | Yang Dikerjakan |
-|------|----------------|
-| Arifah Huwaina Azre | Halaman login & register (EJS), halaman survey, styling CSS (Basecoat UI), routing autentikasi, logic login/register/logout |
-| Aqila Higenea Taufik | Setup app.js, koneksi database, middleware auth guard & ACL, routing admin & survey, halaman dashboard admin |
+Sistem survey internal FTI Unand yang memungkinkan pengguna (mahasiswa, dosen, pegawai) mengisi survey yang dipublikasikan admin. Tahap 1 mencakup implementasi autentikasi dan access control list (ACL).
+
+Sistem ini bersifat **internal** — tidak ada fitur registrasi mandiri. Akun pengguna dikelola oleh admin sistem.
 
 ---
 
 ## Teknologi
 
 - **Backend:** ExpressJS (Node.js)
-- **Database:** MySQL via `mysql2` (tanpa ORM)
-- **Template:** EJS
-- **Auth:** express-session + bcrypt
-- **UI:** Basecoat UI
+- **Database:** MySQL (mysql2, tanpa ORM)
+- **Template Engine:** EJS
+- **Frontend:** Basecoat UI
+- **Version Control:** Git & GitHub
 
 ---
 
 ## Cara Instalasi & Menjalankan
 
-### 1. Clone repository
+### 1. Clone Repository
 ```bash
-git clone https://github.com/aqilahigenea/fti-survey-a13.git
-cd fti-survey-a13
+git clone https://github.com/arifahazre/fti-survey-a13-tahap1.git
+cd fti-survey-a13-tahap1
 ```
 
-### 2. Install dependencies
+### 2. Install Dependencies
 ```bash
 npm install
 ```
 
-### 3. Setup database
-- Buka **Laragon** → klik **Start All**
-- Buka **phpMyAdmin**
-- Klik tab **Import** → pilih file `database.sql` → klik **Go**
+### 3. Setup Database
+- Buka Laragon → Start All (pastikan MySQL berjalan)
+- Buka phpMyAdmin → `http://localhost/phpmyadmin`
+- Buat database baru dengan nama `fti_survey`
+- Import file `docs/database_dummy.sql`
 
-### 4. Setup file `.env`
-Pastikan isi `.env` seperti ini:
+> **Catatan:** Database sementara menggunakan struktur dummy yang mendekati ERD dosen. Akan disesuaikan setelah database resmi diberikan.
+
+### 4. Setup File .env
+Buat file `.env` di root folder (salin dari `.env.example`):
 ```
 DB_HOST=localhost
 DB_USER=root
@@ -61,57 +56,77 @@ SESSION_SECRET=ftisurvey2026
 PORT=3000
 ```
 
-### 5. Jalankan aplikasi
+### 5. Jalankan Aplikasi
 ```bash
+# Mode development (auto-restart)
 npm run dev
+
+# Mode production
+npm start
 ```
 
-### 6. Buka browser
-```
-http://localhost:3000
-```
+Buka browser: `http://localhost:3000`
+
+> **Catatan:** Saat pertama kali dijalankan, aplikasi akan otomatis melakukan seeding user default ke database.
 
 ---
 
-## Cara Buat Akun Admin
+## Akun Default untuk Testing
 
-1. Buka `http://localhost:3000/register`
-2. Daftar dengan username dan password bebas
-3. Buka **phpMyAdmin** → database `fti_survey` → tabel `users`
-4. Klik tab **SQL** → jalankan perintah ini (ganti `username_kamu`):
-```sql
-UPDATE users SET role = 'admin' WHERE username = 'username_kamu';
-```
-5. Sekarang login dengan akun tersebut → masuk sebagai admin ✅
+| Email | Password | Role |
+|---|---|---|
+| admin@fti.unand.ac.id | admin123 | admin |
+| arifah@students.unand.ac.id | 2411521003 | mahasiswa |
+| aqila@students.unand.ac.id | 2411522003 | mahasiswa |
 
 ---
 
-## Struktur Project
+## Pembagian Tugas
+
+| Nama | NIM | Yang Dikerjakan |
+|---|---|---|
+| Arifah Huwaina Azre | 2411521003 | Inisialisasi project Express Generator, routing auth/survey/admin, halaman login (EJS), halaman survey (placeholder), styling CSS Basecoat UI, logic login/logout |
+| Aqila Higena Taufik | 2411522003 | Koneksi database mysql2 dengan seeder otomatis, middleware auth (cek session login), middleware ACL (cek role RBAC), halaman dashboard admin (placeholder), dokumentasi README & .env.example |
+
+---
+
+## Struktur Folder
 
 ```
-fti-survey-a13/
-├── config/db.js          → koneksi database
-├── controllers/          → logika autentikasi & fitur
-├── middleware/           → auth guard & ACL
-├── routes/               → routing URL
-├── views/                → tampilan EJS
-├── public/css/           → stylesheet
-├── database.sql          → script setup database
-├── app.js                → entry point
+fti-survey-a13-tahap1/
+├── bin/www                    # Entry point server
+├── config/
+│   └── db.js                  # Koneksi database + seeder otomatis
+├── controllers/
+│   ├── authController.js      # Logic login & logout
+│   ├── surveyController.js    # Placeholder survey (Tahap 2)
+│   └── adminController.js     # Placeholder admin (Tahap 2)
+├── middleware/
+│   ├── auth.js                # Cek session login (Authentication)
+│   └── acl.js                 # Cek role RBAC (Authorization)
+├── routes/
+│   ├── auth.js                # Route login & logout
+│   ├── survey.js              # Route halaman survey
+│   └── admin.js               # Route halaman admin
+├── views/
+│   ├── auth/login.ejs         # Halaman login
+│   ├── survey/index.ejs       # Placeholder halaman survey
+│   ├── admin/dashboard.ejs    # Placeholder dashboard admin
+│   └── error.ejs              # Halaman error
+├── public/css/style.css       # Basecoat UI & custom CSS
+├── docs/
+│   └── database_dummy.sql     # Struktur database sementara
+├── exports/                   # Tempat file CSV/PDF (Tahap 2)
+├── .env.example               # Contoh konfigurasi .env
+├── .gitignore
+├── package.json
 └── README.md
 ```
 
 ---
 
-## Fitur
+## Catatan
 
-### Tahap 1 ✅
-- Login, register, logout
-- Session management
-- ACL (admin & user)
-- Tampilan login & register dengan Basecoat UI
-
-### Tahap 2 🚧
-- Pengguna isi survey
-- Admin lihat rekap
-- Export CSV & PDF
+- Database resmi akan diberikan oleh dosen, struktur dummy akan disesuaikan
+- Fitur utama (isi survey, rekap, export) akan diimplementasi di Tahap 2
+- Setiap anggota memiliki kontribusi yang dapat dilihat melalui commit history di GitHub
