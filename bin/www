@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+/**
+ * Entry point aplikasi
+ * File ini yang pertama jalan saat "npm start"
+ */
+
+const app = require('../app');
+const http = require('http');
+
+// Ambil port dari .env atau default 3000
+const port = process.env.PORT || 3000;
+app.set('port', port);
+
+// Buat server HTTP
+const server = http.createServer(app);
+server.listen(port);
+
+server.on('listening', () => {
+  console.log(`✅ Server jalan di http://localhost:${port}`);
+});
+
+server.on('error', (error) => {
+  console.error('❌ Error server:', error.message);
+});
