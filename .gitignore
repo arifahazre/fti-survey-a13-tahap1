@@ -1,0 +1,12 @@
+# Dependensi node (jangan di push, besar!)
+node_modules/
+
+# File rahasia (jangan di push, berisi password!)
+.env
+
+# File hasil generate (tidak perlu di push)
+exports/
+
+# File sistem
+.DS_Store
+Thumbs.db
