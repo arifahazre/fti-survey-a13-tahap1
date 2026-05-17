@@ -1,77 +1,66 @@
-# FTI Survey A13 — Tahap 1
+# Tugas Besar Pemrograman Web
+## Modul A13 — Pengisian Survey (Tahap 1)
 
-Aplikasi Survey Internal FTI Universitas Andalas  
-**Modul A13: Pengisian Survey**  
-**Tahap 1: Autentikasi & ACL**
+Fakultas Teknologi Informasi, Universitas Andalas
+Semester Genap 2025/2026
 
 ---
 
 ## Deskripsi
 
-Sistem survey internal FTI Unand yang memungkinkan pengguna (mahasiswa, dosen, pegawai) mengisi survey yang dipublikasikan admin. Tahap 1 mencakup implementasi autentikasi dan access control list (ACL).
+Sistem survey internal FTI Unand untuk memfasilitasi pengisian survey oleh civitas akademika. Pengguna yang terdaftar dapat mengisi survey yang telah dipublikasikan oleh admin. Sistem bersifat internal — akun dikelola oleh admin, tidak ada registrasi mandiri.
 
-Sistem ini bersifat **internal** — tidak ada fitur registrasi mandiri. Akun pengguna dikelola oleh admin sistem.
+Repositori ini merupakan Tahap 1 yang mencakup implementasi autentikasi dan access control.
 
 ---
 
 ## Teknologi
 
-- **Backend:** ExpressJS (Node.js)
-- **Database:** MySQL (mysql2, tanpa ORM)
-- **Template Engine:** EJS
-- **Frontend:** Basecoat UI
-- **Version Control:** Git & GitHub
+- Backend: ExpressJS (Node.js)
+- Database: MySQL dengan library mysql2 (tanpa ORM)
+- Template Engine: EJS
+- Styling: Basecoat UI
+- Version Control: Git dan GitHub
 
 ---
 
-## Cara Instalasi & Menjalankan
+## Instalasi
 
-### 1. Clone Repository
-```bash
+1. Clone repository
+
 git clone https://github.com/arifahazre/fti-survey-a13-tahap1.git
 cd fti-survey-a13-tahap1
-```
 
-### 2. Install Dependencies
-```bash
+2. Install dependencies
+
 npm install
-```
 
-### 3. Setup Database
-- Buka Laragon → Start All (pastikan MySQL berjalan)
-- Buka phpMyAdmin → `http://localhost/phpmyadmin`
-- Buat database baru dengan nama `fti_survey`
-- Import file `docs/database_dummy.sql`
+3. Setup database
 
-> **Catatan:** Database sementara menggunakan struktur dummy yang mendekati ERD dosen. Akan disesuaikan setelah database resmi diberikan.
+Buka phpMyAdmin, buat database baru bernama fti_survey, lalu import file docs/database_dummy.sql.
+Database yang digunakan saat ini adalah dummy sementara, menunggu database resmi dari dosen.
 
-### 4. Setup File .env
-Buat file `.env` di root folder (salin dari `.env.example`):
-```
+4. Konfigurasi environment
+
+Salin file .env.example menjadi .env lalu sesuaikan isinya:
+
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=fti_survey
 SESSION_SECRET=ftisurvey2026
 PORT=3000
-```
 
-### 5. Jalankan Aplikasi
-```bash
-# Mode development (auto-restart)
+5. Jalankan aplikasi
+
 npm run dev
 
-# Mode production
-npm start
-```
-
-Buka browser: `http://localhost:3000`
-
-> **Catatan:** Saat pertama kali dijalankan, aplikasi akan otomatis melakukan seeding user default ke database.
+Akses di browser: http://localhost:3000
+Saat pertama kali dijalankan, aplikasi akan otomatis membuat user default ke database.
 
 ---
 
-## Akun Default untuk Testing
+## Akun Default
 
 | Email | Password | Role |
 |---|---|---|
@@ -83,50 +72,67 @@ Buka browser: `http://localhost:3000`
 
 ## Pembagian Tugas
 
-| Nama | NIM | Yang Dikerjakan |
+| Nama | NIM | Kontribusi |
 |---|---|---|
-| Arifah Huwaina Azre | 2411521003 | Inisialisasi project Express Generator, routing auth/survey/admin, halaman login (EJS), halaman survey (placeholder), styling CSS Basecoat UI, logic login/logout |
-| Aqila Higena Taufik | 2411522003 | Koneksi database mysql2 dengan seeder otomatis, middleware auth (cek session login), middleware ACL (cek role RBAC), halaman dashboard admin (placeholder), dokumentasi README & .env.example |
+| Arifah Huwaina Azre | 2411521003 | Inisialisasi project, routing, halaman login, halaman survey, middleware autentikasi, logic login dan logout |
+| Aqila Higena Taufik | 2411522003 | Koneksi database dengan seeder otomatis, middleware ACL, halaman dashboard admin, dokumentasi |
+
+---
+
+## Progress Pengembangan
+
+### Tahap 1 — Autentikasi dan ACL (selesai)
+
+- Inisialisasi project menggunakan Express Generator
+- Implementasi login dan logout dengan enkripsi password bcrypt
+- Manajemen sesi pengguna menggunakan express-session
+- Middleware autentikasi untuk memproteksi halaman
+- Middleware ACL berbasis role (RBAC) — satu pengguna dapat memiliki lebih dari satu role
+- Koneksi database MySQL menggunakan mysql2 dengan seeder otomatis
+- Halaman login, halaman survey (placeholder), dan dashboard admin (placeholder)
+
+### Tahap 2 — Fitur Utama (akan datang)
+
+- Pengguna dapat melihat daftar survey yang dipublikasikan
+- Pengguna dapat mengisi dan mengirim jawaban survey
+- Validasi jawaban dan notifikasi konfirmasi pengiriman
+- Admin dapat melihat rekap hasil survey dan data responden
+- Export data hasil survey dalam format CSV dan PDF
+- REST API endpoint untuk data survey
 
 ---
 
 ## Struktur Folder
 
-```
 fti-survey-a13-tahap1/
-├── bin/www                    # Entry point server
-├── config/
-│   └── db.js                  # Koneksi database + seeder otomatis
+├── bin/www
+├── config/db.js
 ├── controllers/
-│   ├── authController.js      # Logic login & logout
-│   ├── surveyController.js    # Placeholder survey (Tahap 2)
-│   └── adminController.js     # Placeholder admin (Tahap 2)
+│   ├── authController.js
+│   ├── surveyController.js
+│   └── adminController.js
 ├── middleware/
-│   ├── auth.js                # Cek session login (Authentication)
-│   └── acl.js                 # Cek role RBAC (Authorization)
+│   ├── auth.js
+│   └── acl.js
 ├── routes/
-│   ├── auth.js                # Route login & logout
-│   ├── survey.js              # Route halaman survey
-│   └── admin.js               # Route halaman admin
+│   ├── auth.js
+│   ├── survey.js
+│   └── admin.js
 ├── views/
-│   ├── auth/login.ejs         # Halaman login
-│   ├── survey/index.ejs       # Placeholder halaman survey
-│   ├── admin/dashboard.ejs    # Placeholder dashboard admin
-│   └── error.ejs              # Halaman error
-├── public/css/style.css       # Basecoat UI & custom CSS
-├── docs/
-│   └── database_dummy.sql     # Struktur database sementara
-├── exports/                   # Tempat file CSV/PDF (Tahap 2)
-├── .env.example               # Contoh konfigurasi .env
+│   ├── auth/login.ejs
+│   ├── survey/index.ejs
+│   ├── admin/dashboard.ejs
+│   └── error.ejs
+├── public/css/style.css
+├── docs/database_dummy.sql
+├── exports/
+├── .env.example
 ├── .gitignore
 ├── package.json
 └── README.md
-```
 
 ---
 
 ## Catatan
 
-- Database resmi akan diberikan oleh dosen, struktur dummy akan disesuaikan
-- Fitur utama (isi survey, rekap, export) akan diimplementasi di Tahap 2
-- Setiap anggota memiliki kontribusi yang dapat dilihat melalui commit history di GitHub
+Database resmi akan diberikan oleh dosen dan akan disesuaikan pada tahap berikutnya.
