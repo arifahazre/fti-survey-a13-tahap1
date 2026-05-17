@@ -135,4 +135,6 @@ fti-survey-a13-tahap1/
 
 ## Catatan
 
+<<<<<<< HEAD
 Database resmi akan diberikan oleh dosen dan akan disesuaikan pada tahap berikutnya.
+=======
