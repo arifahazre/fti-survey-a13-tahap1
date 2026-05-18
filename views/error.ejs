@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error <%= status %> — FTI Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="app-body" style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+  <div style="text-align:center; background:white; padding:48px 64px; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+    <div style="font-size:80px; font-weight:800; color:#0D4A3E; line-height:1; margin-bottom:12px;"><%= status %></div>
+    <div style="font-size:16px; color:#64748B; margin-bottom:28px;"><%= message %></div>
+    <a href="/" style="display:inline-block; text-decoration:none; padding:12px 32px; background:#0D4A3E; color:white; border-radius:10px; font-weight:700; font-size:14px; font-family:'Plus Jakarta Sans', sans-serif;">
+      Kembali ke Beranda
+    </a>
+  </div>
+</body>
+</html>
